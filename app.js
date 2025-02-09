@@ -9,6 +9,9 @@ import UserRouter from "./routes/User.Router.js";
 import AuctionRouter from "./routes/Auction.route.js";
 import BidsRouter from "./routes/Bid.route.js";
 import CommisonRoute from "./routes/Commision.route.js";
+import superAdminRouter from "./routes/SuperAdmin.route.js"
+import { endedAuction } from "./automation/endedauction.cron.js";
+import { verifyCommissionCron } from "./automation/verifycommisioncron.js";
 
 // Load environment variables
 config({ path: "./config/config.env" });
@@ -38,7 +41,9 @@ app.use("/api/v1/user", UserRouter);
 app.use("/api/v1/auctions", AuctionRouter);
 app.use("/api/v1/bids", BidsRouter);
 app.use("/api/v1/commison", CommisonRoute);
-
+app.use("/api/v1/superadmin", superAdminRouter);
+endedAuction()
+verifyCommissionCron()
 // Database connection
 connection();
 

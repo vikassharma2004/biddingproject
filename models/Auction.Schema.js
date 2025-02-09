@@ -71,11 +71,11 @@ const AuctionSchema = mongoose.Schema({
       },
     },
   ],
-  HiggestBidder: {
+  HighestBidder: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  commissioncalculated: {
+  commissionCalculated: {
     type: Boolean,
     default: false,
   },

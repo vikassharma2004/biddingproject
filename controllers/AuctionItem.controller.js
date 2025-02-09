@@ -4,6 +4,7 @@ import ErrorHandler from "../middleware/error.js";
 import { Auction } from "../models/Auction.Schema.js";
 import { User } from "../models/User.Schema.js";
 import { v2 as cloudinary } from "cloudinary";
+import { Bid } from "../models/Bid.Schema.js";
 
 // Ensure Cloudinary is configured
 
@@ -189,6 +190,7 @@ export const RepublishAuction = catchAsyncError(async (req, res, next) => {
       return next(new ErrorHandler("Invalid Auction ID", 400));
     }
     let AuctionItem = await Auction.findById(id);
+
     if (!AuctionItem) {
       return next(new ErrorHandler("Auction not found", 404));
     }
@@ -222,8 +224,19 @@ export const RepublishAuction = catchAsyncError(async (req, res, next) => {
       );
     }
 
+    if(AuctionItem.HighestBidder){
+      const highestBidder = await User.findById(AuctionItem.HighestBidder);
+      highestBidder.moneyspent-=AuctionItem.currentPrice;
+      highestBidder.unpaidCommissionAmount = 0;
+      highestBidder.auctionswon-=1;
+
+      await highestBidder.save();
+    }
+
     data.bids = [];
-    data.commissioncalculated = false;
+    data.commissionCalculated = false;
+    data.currentPrice=0;
+    data.HighestBidder=null;
 
     if(!req.body.startTime || !req.body.endTime){
       return next (new ErrorHandler("startime and endtime for republish is required ", 400))
@@ -233,6 +246,9 @@ export const RepublishAuction = catchAsyncError(async (req, res, next) => {
       runValidators: true,
       usefindAndModify: false,
     });
+
+    await Bid.deleteMany({ auction: AuctionItem._id });
+
     const createdBy = await User.findById(req.user.id);
     createdBy.unpaidCommissionAmount = 0;
     await createdBy.save();
@@ -261,14 +277,3 @@ export const DeleteAuction = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler("Internal Server Error", 500));
   }
 });
-
-
-export const checkworking = catchAsyncError(async (req, res, next) => {
-  try {
-const user=req.user
-
-    res.status(200).json({ success: true, message: "working", user });
-  } catch (error) {
-    return next(new ErrorHandler("Internal Server Error", 500));
-  }
-})
