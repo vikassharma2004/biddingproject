@@ -7,7 +7,7 @@ import fileupload from "express-fileupload";
 import { connection } from "./db/connection.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import { errormiddleware } from "./middleware/error.js";
+import { errorMiddleware } from "./middleware/error.js";
 import UserRouter from "./routes/User.Router.js";
 import AuctionRouter from "./routes/Auction.route.js";
 import BidsRouter from "./routes/Bid.route.js";
@@ -61,7 +61,7 @@ app.use("/api/v1/auctions", AuctionRouter);
 app.use("/api/v1/bids", BidsRouter);
 app.use("/api/v1/commison", CommisonRoute);
 connection();
-app.use(errormiddleware);
+app.use(errorMiddleware);
 app.get("/", (req, res) => {
   try {
     res.status(200).json({ message: `server running success full${process.pid} `});
