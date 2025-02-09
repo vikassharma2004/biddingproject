@@ -1,4 +1,4 @@
-import { catchAsyncError } from "../middleware/catchAsyncError.js";
+import { catchAsyncError } from "../middleware/catchasyncerror.js";
 import ErrorHandler from "../middleware/error.js";
 import { Auction } from "../models/Auction.Schema.js";
 import { Bid } from "../models/Bid.Schema.js";
