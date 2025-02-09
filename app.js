@@ -73,5 +73,9 @@ app.get("/", (req, res) => {
 
 process.on("unhandledRejection", (reason, promise) => {
   console.error("Unhandled Rejection at", promise, "reason:", reason);
+  process.exit(1);
 });
+
+
+
 export default app;
