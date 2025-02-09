@@ -6,7 +6,7 @@ class ErrorHandler extends Error {
   }
 }
 
-export const errormiddleware = (err, req, res, next) => {
+export const errorMiddleware = (err, req, res, next) => {
   err.message = err.message || "Internal Server Error";
   err.statusCode = err.statusCode || 500;
   if (err.name === "JsonWebTokenError") {
