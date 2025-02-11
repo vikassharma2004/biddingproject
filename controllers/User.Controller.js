@@ -26,11 +26,13 @@ export const registerUser =  catchAsyncError(async(req, res, next) => {
       address,
       phonenumber,
       role,
-      bankAccuntNumber,
+      bankAccountNumber,
       bankName,
       bankAccountHolderName,
       paypalEmail,
     } = req.body;
+    console.log(req.body);
+    
 
 
     if (!username || !password || !email || !address || !phonenumber || !role) {
@@ -39,7 +41,7 @@ export const registerUser =  catchAsyncError(async(req, res, next) => {
 
     if (role == "Auctioneer")
       if (
-        !bankAccuntNumber ||
+        !bankAccountNumber ||
         !bankName ||
         !bankAccountHolderName ||
         !paypalEmail
@@ -75,7 +77,7 @@ export const registerUser =  catchAsyncError(async(req, res, next) => {
         },
         paymentmethods: {
           banktransfer: {
-            bankAccuntNumber,
+            bankAccountNumber,
             bankName,
             bankAccountHolderName
           },

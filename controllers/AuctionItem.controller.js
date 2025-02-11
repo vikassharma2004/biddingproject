@@ -43,6 +43,8 @@ if(req.user.role=="Bidder" || req.user.role=="SuperAdmin"){
       startTime,
       endTime,
     } = req.body;
+    console.log(req.body);
+    
 
     // Check if all fields are provided
     if (

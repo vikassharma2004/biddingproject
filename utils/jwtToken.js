@@ -8,7 +8,9 @@ export const generatetoken = (user, message, statusCode, res) => {
     res.status(statusCode)
       .cookie("token", token, {
         expires: new Date(Date.now() + COOKIE_EXPIRE * 24 * 60 * 60 * 1000), // ✅ Corrected parentheses
-       
+        httpOnly: true,
+        sameSite: "Strict",
+        secure: true,
       })
       .json({ success: true, message, user, token });
 };
