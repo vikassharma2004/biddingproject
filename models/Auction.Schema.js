@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 const AuctionSchema = mongoose.Schema({
   title: {
     type: String,
@@ -14,6 +15,20 @@ const AuctionSchema = mongoose.Schema({
   },
   category: {
     type: String,
+    enum: [
+      "Electronics",
+      "Fashion",
+     
+      "Art & Collectibles",
+      "Sports & Outdoors",
+     
+     
+      "Jewelry & Watches",
+      "Health & Beauty",
+      "Books & Media",
+      "Other",
+    ],
+    required: [true, "Please select a category"],
   },
   condition: {
     type: String,
